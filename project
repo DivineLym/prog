@@ -2,8 +2,8 @@
 import pygame
 import random
 
-WIDTH = 480
-HEIGHT = 480
+WIDTH = 500
+HEIGHT = 500
 FPS = 30
 
 WHITE = (255, 255, 255)
@@ -12,6 +12,10 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+sizex=WIDTH//10
+sizey=HEIGHT//10
+marginx=WIDTH*3//20
+marginy=HEIGHT*3//20
 
 def check(a,b,li):
     for i in range(len(li)):
@@ -204,7 +208,13 @@ while running:
 
     # Рендеринг
     screen.fill((218,112,214))
-    Rect((left, top), (width, height))
+    for i in range(4):
+        for j in range(4):
+            pygame.draw.rect(screen, (BLACK), (marginx+2*i*sizex, marginy+2*j*sizey, sizex, sizey))
+            if(i!=3):
+                pygame.draw.rect(screen, (WHITE), (marginx+2*(i+1)*sizex-sizex, marginy+2*(j+1)*sizey-2*sizey, sizex, sizey))
+            if(j!=3):
+                pygame.draw.rect(screen, (WHITE), (marginx + 2 * (i + 1) * sizex -2* sizex, marginy + 2 * (j + 1) * sizey - sizey, sizex, sizey))
     pygame.display.flip()  # прорисовка
 
 pygame.quit()
