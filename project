@@ -8,22 +8,26 @@ FPS = 30
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+RED = (255, 60, 100)
+GREEN = (0, 200, 0)
 BLUE = (0, 0, 255)
+GRAY = (160, 160, 160)
+BROWN = (150, 70, 35)
 
-sizex=WIDTH//10
-sizey=HEIGHT//10
-marginx=WIDTH*3//20
-marginy=HEIGHT*3//20
+sizex = WIDTH // 10
+sizey = HEIGHT // 10
+marginx = WIDTH * 3 // 20
+marginy = HEIGHT * 3 // 20
 
-def check(a,b,li):
+
+def check(a, b, li):
     for i in range(len(li)):
-        if(a==li[i][0] and b==li[i][1]):
+        if (a == li[i][0] and b == li[i][1]):
             return 1
     return 0
 
-def down(a,b,desk,res,li):
+
+def down(a, b, desk, res, li):
     if (check(a + 2, b, li) == 0):
         print(desk[a + 1][b], end='')
         a += 2
@@ -32,10 +36,11 @@ def down(a,b,desk,res,li):
             res -= int(desk[a][b])
         else:
             res += int(desk[a][b])
-        li.append([a,b])
-    return [a,b,res,li]
+        li.append([a, b])
+    return [a, b, res, li]
 
-def up(a,b,desk,res,li):
+
+def up(a, b, desk, res, li):
     if (check(a - 2, b, li) == 0):
         print(desk[a - 1][b], end='')
         a -= 2
@@ -44,11 +49,12 @@ def up(a,b,desk,res,li):
             res -= int(desk[a][b])
         else:
             res += int(desk[a][b])
-        li.append([a,b])
-    return [a,b,res,li]
+        li.append([a, b])
+    return [a, b, res, li]
 
-def left(a,b,desk,res,li):
-    if (check(a, b-2, li) == 0):
+
+def left(a, b, desk, res, li):
+    if (check(a, b - 2, li) == 0):
         print(desk[a][b - 1], end='')
         b -= 2
         print(desk[a][b], end='')
@@ -57,10 +63,11 @@ def left(a,b,desk,res,li):
         else:
             res += int(desk[a][b])
         li.append([a, b])
-    return [a,b,res,li]
+    return [a, b, res, li]
 
-def right(a,b,desk,res,li):
-    if (check(a, b+2, li) == 0):
+
+def right(a, b, desk, res, li):
+    if (check(a, b + 2, li) == 0):
         print(desk[a][b + 1], end='')
         b += 2
         print(desk[a][b], end='')
@@ -71,17 +78,18 @@ def right(a,b,desk,res,li):
         li.append([a, b])
     return [a, b, res, li]
 
+
 def generation():
     desk = []
-    sym = ['-','+']
+    sym = ['-', '+']
 
     # заполнение доски
     for i in range(7):
         desk.append([])
         for j in range(4):
-            if(i%2==0):
-                desk[i].append(random.randint(0, 10))  #заполняем числа
-                if(j!=3):
+            if (i % 2 == 0):
+                desk[i].append(random.randint(0, 10))  # заполняем числа
+                if (j != 3):
                     desk[i].append(random.choice(sym))  # заполняем знаки
             else:
                 desk[i].append(random.choice(sym))  # заполняем знаки
@@ -93,65 +101,65 @@ def generation():
             print(desk[i][j], end='')
     print()
     # нахождение правильной последовательности
-    desk[6][6]=0
-    li=[]
-    res=desk[0][0]
+    desk[6][6] = 0
+    li = []
+    res = desk[0][0]
     print(desk[0][0], end='')
-    a=int(0)
-    b=int(0)  #индекс числа
-    while (a!=6 or b!=6):
-        if(a!=6 or b!=6):
-            if(random.randint(0,1)==0):  #по горизонтали
-                if(b!=0 and b!=6):
-                    if(a==2 or a==4): #без ограничений
-                        if (random.randint(0, 1) == 0):  #вверх
+    a = int(0)
+    b = int(0)  # индекс числа
+    while (a != 6 or b != 6):
+        if (a != 6 or b != 6):
+            if (random.randint(0, 1) == 0):  # по горизонтали
+                if (b != 0 and b != 6):
+                    if (a == 2 or a == 4):  # без ограничений
+                        if (random.randint(0, 1) == 0):  # вверх
                             fun = up(a, b, desk, res, li)
                             a = fun[0]
                             b = fun[1]
                             res = fun[2]
                             li = fun[3]
-                        else:  #вниз
-                            fun=down(a,b,desk,res,li)
-                            a=fun[0]
+                        else:  # вниз
+                            fun = down(a, b, desk, res, li)
+                            a = fun[0]
                             b = fun[1]
-                            res=fun[2]
-                            li=fun[3]
-                    elif(a==0): #у верхней границы
+                            res = fun[2]
+                            li = fun[3]
+                    elif (a == 0):  # у верхней границы
                         fun = down(a, b, desk, res, li)
                         a = fun[0]
                         b = fun[1]
                         res = fun[2]
                         li = fun[3]
-                    else: #у нижней границы
+                    else:  # у нижней границы
                         fun = up(a, b, desk, res, li)
                         a = fun[0]
                         b = fun[1]
                         res = fun[2]
                         li = fun[3]
-                elif(b==0 or b==6):    #у левой или правой границы
-                    if(a!=6):
+                elif (b == 0 or b == 6):  # у левой или правой границы
+                    if (a != 6):
                         fun = down(a, b, desk, res, li)
                         a = fun[0]
                         b = fun[1]
                         res = fun[2]
                         li = fun[3]
 
-            else:   # по вертикали
-                if(a!=0 and a!=6):  #без ограничений
-                    if(b==2 or b==4):
-                        if (random.randint(0, 1) == 0):  #влево
+            else:  # по вертикали
+                if (a != 0 and a != 6):  # без ограничений
+                    if (b == 2 or b == 4):
+                        if (random.randint(0, 1) == 0):  # влево
                             fun = left(a, b, desk, res, li)
                             a = fun[0]
                             b = fun[1]
                             res = fun[2]
                             li = fun[3]
-                        else:  #вправо
+                        else:  # вправо
                             fun = right(a, b, desk, res, li)
                             a = fun[0]
                             b = fun[1]
                             res = fun[2]
                             li = fun[3]
-                    elif(b==0):
+                    elif (b == 0):
                         fun = right(a, b, desk, res, li)
                         a = fun[0]
                         b = fun[1]
@@ -163,22 +171,20 @@ def generation():
                         b = fun[1]
                         res = fun[2]
                         li = fun[3]
-                elif(a==0 or a==6):  # у верхней или нижней границы
-                    if(b!=6):
+                elif (a == 0 or a == 6):  # у верхней или нижней границы
+                    if (b != 6):
                         fun = right(a, b, desk, res, li)
                         a = fun[0]
                         b = fun[1]
                         res = fun[2]
                         li = fun[3]
 
-
-
-
     print(desk)
 
-    desk[a][b]=res
-    desk[a-1][b]='='
-    desk[a][b-1]='='
+    desk[a][b] = res
+    desk[a - 1][b] = '='
+    desk[a][b - 1] = '='
+    return desk
     print(desk)
     for i in range(7):
         print()
@@ -186,17 +192,59 @@ def generation():
             print(desk[i][j], end='')
 
 
+def wrong(screen, marginx, marginy, sizex, sizey):
+    pygame.draw.rect(screen, (RED), (0, 0, 500, marginy))
+    pygame.draw.rect(screen, (RED), (0, 0, marginx, 500))
+    pygame.draw.rect(screen, (RED), (500 - marginx, 0, marginx, 500))
+    pygame.draw.rect(screen, (RED), (0, 500 - marginy, 500, marginy))
+    for i in range(3):
+        for j in range(3):
+            pygame.draw.rect(screen, (RED),
+                             (marginx + 2 * i * sizex + sizex, marginy + 2 * j * sizey + sizey, sizex, sizey))
+
+def back(screen, marginx, marginy, sizex, sizey):
+    pygame.draw.rect(screen, (GRAY), (0, 0, 500, marginy))
+    pygame.draw.rect(screen, (GRAY), (0, 0, marginx, 500))
+    pygame.draw.rect(screen, (GRAY), (500 - marginx, 0, marginx, 500))
+    pygame.draw.rect(screen, (GRAY), (0, 500 - marginy, 500, marginy))
+    for i in range(3):
+        for j in range(3):
+            pygame.draw.rect(screen, (GRAY),
+                             (marginx + 2 * i * sizex + sizex, marginy + 2 * j * sizey + sizey, sizex, sizey))
+
+def fill(screen, marginx, marginy, sizex, sizey, a, b):
+    pygame.draw.rect(screen, (GREEN), (marginx + a * sizex, marginy + b * sizey, sizex, sizey))
 
 
 # Создаем игру и окно
 pygame.init()
+pygame.font.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
-generation()
+LETTER_FONT = pygame.font.SysFont('comicsans', 30)
+WORD_FONT = pygame.font.SysFont('comicsans', 60)
+a = 0
+b = 0
+filled = [[0,0]]
+desk = generation()
+res=desk[0][0]
+target=desk[6][6]
 # Цикл игры
 running = True
+screen.fill(GRAY)
+for i in range(4):
+    for j in range(4):
+        pygame.draw.rect(screen, (BLACK), (marginx + 2 * i * sizex, marginy + 2 * j * sizey, sizex, sizey))
+        if (i != 3):
+            pygame.draw.rect(screen, (WHITE), (
+                marginx + 2 * (i + 1) * sizex - sizex, marginy + 2 * (j + 1) * sizey - 2 * sizey, sizex, sizey))
+        if (j != 3):
+            pygame.draw.rect(screen, (WHITE), (
+                marginx + 2 * (i + 1) * sizex - 2 * sizex, marginy + 2 * (j + 1) * sizey - sizey, sizex, sizey))
+pygame.draw.rect(screen, (GREEN), (marginx, marginy, sizex, sizey))
+pygame.display.flip()
 while running:
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -204,17 +252,112 @@ while running:
         if event.type == pygame.QUIT:  # закрываем игру
             running = False
 
+        elif (event.type == pygame.KEYDOWN):
+            if (event.key == pygame.K_RIGHT):
+                if (a != 6):
+                    if check(a + 2, b, filled) == 0:
+                        a += 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        a += 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        filled.append([a, b])
+                        back(screen, marginx, marginy, sizex, sizey)
+                        if(desk[b][a-1]=='+'):
+                            res+=desk[b][a]
+                        elif (desk[b][a - 1] == '='):
+                            res=res
+                        else:
+                            res-=desk[b][a]
+                    else:
+                        wrong(screen, marginx, marginy, sizex, sizey)
+                else:
+                    wrong(screen, marginx, marginy, sizex, sizey)
+            elif (event.key == pygame.K_LEFT):
+                if (a != 0):
+                    if check(a - 2, b, filled) == 0:
+                        a -= 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        a -= 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        filled.append([a, b])
+                        back(screen, marginx, marginy, sizex, sizey)
+                        if (desk[b][a + 1] == '+'):
+                            res += desk[b][a]
+                        elif(desk[b][a+1]=='='):
+                            res=res
+                        else:
+                            res -= desk[b][a]
+                    else:
+                        wrong(screen, marginx, marginy, sizex, sizey)
+                else:
+                    wrong(screen, marginx, marginy, sizex, sizey)
+            elif (event.key == pygame.K_UP):
+                if (b != 0):
+                    if check(a, b - 2, filled) == 0:
+                        b -= 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        b -= 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        filled.append([a, b])
+                        back(screen, marginx, marginy, sizex, sizey)
+                        if (desk[b+1][a] == '+'):
+                            res += desk[b][a]
+                        elif (desk[b+1][a] == '='):
+                            res = res
+                        else:
+                            res -= desk[b][a]
+                    else:
+                        wrong(screen, marginx, marginy, sizex, sizey)
+                else:
+                    wrong(screen, marginx, marginy, sizex, sizey)
+            elif (event.key == pygame.K_DOWN):
+                if (b != 6):
+                    if check(a, b + 2, filled) == 0:
+                        b += 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        b += 1
+                        fill(screen, marginx, marginy, sizex, sizey, a, b)
+                        filled.append([a, b])
+                        back(screen, marginx, marginy, sizex, sizey)
+                        if (desk[b -1][a] == '+'):
+                            res += desk[b][a]
+                        elif (desk[b - 1][a] == '='):
+                            res = res
+                        else:
+                            res -= desk[b][a]
+                    else:
+                        wrong(screen, marginx, marginy, sizex, sizey)
+                else:
+                    wrong(screen, marginx, marginy, sizex, sizey)
+
     # Обновление
 
     # Рендеринг
-    screen.fill((218,112,214))
-    for i in range(4):
-        for j in range(4):
-            pygame.draw.rect(screen, (BLACK), (marginx+2*i*sizex, marginy+2*j*sizey, sizex, sizey))
-            if(i!=3):
-                pygame.draw.rect(screen, (WHITE), (marginx+2*(i+1)*sizex-sizex, marginy+2*(j+1)*sizey-2*sizey, sizex, sizey))
-            if(j!=3):
-                pygame.draw.rect(screen, (WHITE), (marginx + 2 * (i + 1) * sizex -2* sizex, marginy + 2 * (j + 1) * sizey - sizey, sizex, sizey))
+
+    for i in range(7):
+        for j in range(7):
+            if (j % 2 == 0):
+                text = LETTER_FONT.render(str(desk[j][i]), 1, BROWN)
+                screen.blit(text, (marginx + i * sizex + (sizex - text.get_width()) // 2,
+                                   marginy - 4 + j * sizey + (sizey - text.get_height()) // 2))
+            else:
+                if (i % 2 == 0):
+                    text = LETTER_FONT.render(str(desk[j][i]), 1, BROWN)
+                    screen.blit(text, (marginx + i * sizex + (sizex - text.get_width()) // 2,
+                                       marginy - 4 + j * sizey + (sizey - text.get_height()) // 2))
+    text = LETTER_FONT.render(str(res), 1, BROWN)
+    screen.blit(text, (20,20))
+    if(a==6 and b==6):
+        if(res==target):
+            screen.fill(GREEN)
+            text = WORD_FONT.render("YOU WON!", 1, WHITE)
+            center = ((WIDTH - text.get_width()) / 2,(HEIGHT - text.get_height()) / 2)
+            screen.blit(text, center)
+        else:
+            screen.fill(RED)
+            text = WORD_FONT.render("YOU LOSE!", 1, WHITE)
+            center = ((WIDTH - text.get_width()) / 2, (HEIGHT - text.get_height()) / 2)
+            screen.blit(text, center)
     pygame.display.flip()  # прорисовка
 
 pygame.quit()
